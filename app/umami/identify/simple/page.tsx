@@ -1,11 +1,5 @@
-"use client";
-
-type W = Window & {
-  umami?: {
-    track: (name?: string) => void;
-    identify: (id: string | Record<string, unknown>, data?: Record<string, unknown>) => void;
-  };
-};
+import { IdentifySection } from "@/app/components/IdentifySection";
+import { bqConfig } from "@/lib/bq";
 
 export default function UmamiIdentifySimple() {
   return (
@@ -21,45 +15,11 @@ export default function UmamiIdentifySimple() {
         </p>
       </div>
 
-      <section className="space-y-3">
-        <h2 className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">
-          Steg 1 — identify
-        </h2>
-        <div className="flex flex-wrap gap-2">
-          <button
-            onClick={() => (window as W).umami?.identify("test-bruker-002")}
-            className="px-3 py-1.5 text-sm font-mono bg-zinc-900 text-white rounded hover:bg-zinc-700 transition-colors"
-          >
-            umami.identify(&apos;test-bruker-002&apos;)
-          </button>
-          <button
-            onClick={() => (window as W).umami?.identify("test-bruker-002", { rolle: "veileder", enhet: "bergen" })}
-            className="px-3 py-1.5 text-sm font-mono bg-zinc-900 text-white rounded hover:bg-zinc-700 transition-colors"
-          >
-            umami.identify(&apos;test-bruker-002&apos;, &#123; rolle, enhet &#125;)
-          </button>
-        </div>
-      </section>
-
-      <section className="space-y-3">
-        <h2 className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">
-          Steg 2 — track etter identify
-        </h2>
-        <div className="flex flex-wrap gap-2">
-          <button
-            onClick={() => (window as W).umami?.track("post-identify-1")}
-            className="px-3 py-1.5 text-sm font-mono bg-zinc-900 text-white rounded hover:bg-zinc-700 transition-colors"
-          >
-            umami.track(&apos;post-identify-1&apos;)
-          </button>
-          <button
-            onClick={() => (window as W).umami?.track("post-identify-2")}
-            className="px-3 py-1.5 text-sm font-mono bg-zinc-900 text-white rounded hover:bg-zinc-700 transition-colors"
-          >
-            umami.track(&apos;post-identify-2&apos;)
-          </button>
-        </div>
-      </section>
+      <IdentifySection
+        variant="umami"
+        gcpProject={bqConfig.gcpProject}
+        websiteId={bqConfig.websiteId}
+      />
     </div>
   );
 }

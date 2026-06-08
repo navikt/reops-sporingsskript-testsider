@@ -1,6 +1,18 @@
-"use client";
+import { BqBlock } from "@/app/components/BqBlock";
+import { bqConfig } from "@/lib/bq";
+import { UmamiTrackButtons } from "./UmamiTrackButtons";
 
-type W = Window & { umami?: { track: (name?: string, data?: Record<string, unknown>) => void } };
+const { gcpProject, websiteId } = bqConfig;
+
+const QUERIES = [
+  `-- Hendelser fra denne siden
+SELECT event_name, url_path, created_at
+FROM \`${gcpProject}.umami_views.event\`
+WHERE website_id = '${websiteId}'
+  AND created_at >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 1 DAY)
+  AND url_path LIKE '%/umami/track%'
+ORDER BY created_at DESC LIMIT 20;`,
+];
 
 export default function UmamiTrackSimple() {
   return (
@@ -17,71 +29,9 @@ export default function UmamiTrackSimple() {
         </p>
       </div>
 
-      <section className="space-y-3">
-        <h2 className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">
-          JS API — window.umami.track()
-        </h2>
-        <div className="flex flex-wrap gap-2">
-          <button
-            onClick={() => (window as W).umami?.track()}
-            className="px-3 py-1.5 text-sm font-mono bg-zinc-900 text-white rounded hover:bg-zinc-700 transition-colors"
-          >
-            umami.track()
-          </button>
-          <button
-            onClick={() => (window as W).umami?.track("manuell-hendelse")}
-            className="px-3 py-1.5 text-sm font-mono bg-zinc-900 text-white rounded hover:bg-zinc-700 transition-colors"
-          >
-            umami.track(&apos;manuell-hendelse&apos;)
-          </button>
-          <button
-            onClick={() => (window as W).umami?.track("hendelse-med-data", { kilde: "umami-track-simple", steg: 1 })}
-            className="px-3 py-1.5 text-sm font-mono bg-zinc-900 text-white rounded hover:bg-zinc-700 transition-colors"
-          >
-            umami.track(&apos;hendelse-med-data&apos;, &#123;…&#125;)
-          </button>
-        </div>
-      </section>
+      <UmamiTrackButtons />
 
-      <section className="space-y-3">
-        <h2 className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">
-          HTML-attributter — data-umami-event (legacy)
-        </h2>
-        <div className="flex flex-wrap gap-2">
-          <button
-            data-umami-event="html-klikk"
-            className="px-3 py-1.5 text-sm font-mono bg-yellow-600 text-white rounded hover:bg-yellow-500 transition-colors"
-          >
-            data-umami-event=&quot;html-klikk&quot;
-          </button>
-          <button
-            data-umami-event="html-klikk-med-data"
-            data-umami-event-type="knapp"
-            data-umami-event-side="umami-track-simple"
-            className="px-3 py-1.5 text-sm font-mono bg-yellow-600 text-white rounded hover:bg-yellow-500 transition-colors"
-          >
-            data-umami-event + data-umami-event-type
-          </button>
-        </div>
-      </section>
-
-      <section className="space-y-3">
-        <h2 className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">
-          Sanity check
-        </h2>
-        <div className="flex flex-wrap gap-2">
-          <button
-            onClick={() => {
-              const w = window as unknown as { sporing: unknown; umami: unknown };
-              // eslint-disable-next-line no-console
-              console.log("window.umami === window.sporing:", w.umami === w.sporing);
-            }}
-            className="px-3 py-1.5 text-sm font-mono bg-zinc-200 text-zinc-700 rounded hover:bg-zinc-300 transition-colors"
-          >
-            console.log(window.umami === window.sporing)
-          </button>
-        </div>
-      </section>
+      <BqBlock queries={QUERIES} />
     </div>
   );
 }
