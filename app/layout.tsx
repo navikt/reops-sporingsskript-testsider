@@ -12,8 +12,6 @@ export const metadata: Metadata = {
   description: "Test av sporing.js",
 };
 
-const WEBSITE_ID = process.env.WEBSITE_ID ?? "REPLACE_WITH_WEBSITE_ID";
-
 const NAV_LINKS = [
   { href: "/", label: "Oversikt" },
   { href: "/sporing/track/simple", label: "sporing.track" },
@@ -23,6 +21,7 @@ const NAV_LINKS = [
 ];
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const WEBSITE_ID = process.env.WEBSITE_ID ?? "REPLACE_WITH_WEBSITE_ID";
   return (
     <html lang="no" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="min-h-screen flex flex-col bg-white text-zinc-900 font-sans">
