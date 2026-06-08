@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
-import Script from "next/script";
 import "./globals.css";
+import { TrackingScript } from "./components/TrackingScript";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -12,7 +12,13 @@ export const metadata: Metadata = {
   description: "Test av sporing.js",
 };
 
-export const dynamic = "force-dynamic";
+const isProd = ["prod", "production"].includes(
+  (process.env.ENVIRONMENT ?? "").toLowerCase(),
+);
+
+const WEBSITE_ID = isProd
+  ? "8c9ebc0a-63d8-46b2-a34c-9378f809e595"
+  : "034ed2f3-4fde-4f42-967d-4d607cd8b9f3";
 
 const NAV_LINKS = [
   { href: "/", label: "Oversikt" },
@@ -23,15 +29,10 @@ const NAV_LINKS = [
 ];
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const WEBSITE_ID = process.env.WEBSITE_ID ?? "REPLACE_WITH_WEBSITE_ID";
   return (
     <html lang="no" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="min-h-screen flex flex-col bg-white text-zinc-900 font-sans">
-        <Script
-          src="https://cdn.nav.no/team-researchops/sporing/sporing.js"
-          data-website-id={WEBSITE_ID}
-          strategy="afterInteractive"
-        />
+        <TrackingScript websiteId={WEBSITE_ID} />
         <header className="border-b border-zinc-200 bg-zinc-50">
           <div className="max-w-3xl mx-auto px-6 py-3 flex items-center gap-8 flex-wrap">
             <span className="font-mono text-xs font-semibold text-zinc-400">

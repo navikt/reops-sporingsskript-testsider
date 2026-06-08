@@ -9,8 +9,8 @@ spec:
   image: {{image}}
   port: 3000
   env:
-    - name: WEBSITE_ID
-      value: "034ed2f3-4fde-4f42-967d-4d607cd8b9f3"
+    - name: ENVIRONMENT
+      value: dev
   ingresses:
     - https://sporingsskript-test.ansatt.dev.nav.no
   replicas:
