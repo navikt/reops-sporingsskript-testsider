@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   description: "Test av sporing.js",
 };
 
+export const dynamic = "force-dynamic";
+
 const NAV_LINKS = [
   { href: "/", label: "Oversikt" },
   { href: "/sporing/track/simple", label: "sporing.track" },
