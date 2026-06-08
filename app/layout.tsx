@@ -20,6 +20,9 @@ const WEBSITE_ID = isProd
   ? "8c9ebc0a-63d8-46b2-a34c-9378f809e595"
   : "034ed2f3-4fde-4f42-967d-4d607cd8b9f3";
 
+const CDN = "https://cdn.nav.no/team-researchops/sporing";
+const SCRIPT_SRC = isProd ? `${CDN}/sporing.js` : `${CDN}/sporing-reops.js`;
+
 const NAV_LINKS = [
   { href: "/", label: "Oversikt" },
   { href: "/sporing/track/simple", label: "sporing.track" },
@@ -32,7 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="no" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="min-h-screen flex flex-col bg-white text-zinc-900 font-sans">
-        <TrackingScript websiteId={WEBSITE_ID} />
+        <TrackingScript websiteId={WEBSITE_ID} src={SCRIPT_SRC} />
         <header className="border-b border-zinc-200 bg-zinc-50">
           <div className="max-w-3xl mx-auto px-6 py-3 flex items-center gap-8 flex-wrap">
             <span className="font-mono text-xs font-semibold text-zinc-400">
