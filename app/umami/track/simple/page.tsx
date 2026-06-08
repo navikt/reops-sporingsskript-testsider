@@ -1,10 +1,6 @@
 "use client";
 
-declare global {
-  interface Window {
-    umami?: { track: (name?: string, data?: Record<string, unknown>) => void };
-  }
-}
+type W = Window & { umami?: { track: (name?: string, data?: Record<string, unknown>) => void } };
 
 export default function UmamiTrackSimple() {
   return (
@@ -27,19 +23,19 @@ export default function UmamiTrackSimple() {
         </h2>
         <div className="flex flex-wrap gap-2">
           <button
-            onClick={() => window.umami?.track()}
+            onClick={() => (window as W).umami?.track()}
             className="px-3 py-1.5 text-sm font-mono bg-zinc-900 text-white rounded hover:bg-zinc-700 transition-colors"
           >
             umami.track()
           </button>
           <button
-            onClick={() => window.umami?.track("manuell-hendelse")}
+            onClick={() => (window as W).umami?.track("manuell-hendelse")}
             className="px-3 py-1.5 text-sm font-mono bg-zinc-900 text-white rounded hover:bg-zinc-700 transition-colors"
           >
             umami.track(&apos;manuell-hendelse&apos;)
           </button>
           <button
-            onClick={() => window.umami?.track("hendelse-med-data", { kilde: "umami-track-simple", steg: 1 })}
+            onClick={() => (window as W).umami?.track("hendelse-med-data", { kilde: "umami-track-simple", steg: 1 })}
             className="px-3 py-1.5 text-sm font-mono bg-zinc-900 text-white rounded hover:bg-zinc-700 transition-colors"
           >
             umami.track(&apos;hendelse-med-data&apos;, &#123;…&#125;)

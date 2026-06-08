@@ -1,13 +1,11 @@
 "use client";
 
-declare global {
-  interface Window {
-    sporing?: {
-      track: (name?: string) => void;
-      identify: (id: string | Record<string, unknown>, data?: Record<string, unknown>) => void;
-    };
-  }
-}
+type W = Window & {
+  sporing?: {
+    track: (name?: string) => void;
+    identify: (id: string | Record<string, unknown>, data?: Record<string, unknown>) => void;
+  };
+};
 
 export default function SporingIdentifySimple() {
   return (
@@ -28,13 +26,13 @@ export default function SporingIdentifySimple() {
         <p className="text-xs text-zinc-400">Kall ett av disse. Sjekk at requesten har <code className="font-mono bg-zinc-100 px-1 rounded">type: &quot;identify&quot;</code>.</p>
         <div className="flex flex-wrap gap-2">
           <button
-            onClick={() => window.sporing?.identify("test-bruker-001")}
+            onClick={() => (window as W).sporing?.identify("test-bruker-001")}
             className="px-3 py-1.5 text-sm font-mono bg-zinc-900 text-white rounded hover:bg-zinc-700 transition-colors"
           >
             sporing.identify(&apos;test-bruker-001&apos;)
           </button>
           <button
-            onClick={() => window.sporing?.identify("test-bruker-001", { rolle: "veileder", enhet: "oslo" })}
+            onClick={() => (window as W).sporing?.identify("test-bruker-001", { rolle: "veileder", enhet: "oslo" })}
             className="px-3 py-1.5 text-sm font-mono bg-zinc-900 text-white rounded hover:bg-zinc-700 transition-colors"
           >
             sporing.identify(&apos;test-bruker-001&apos;, &#123; rolle, enhet &#125;)
@@ -52,13 +50,13 @@ export default function SporingIdentifySimple() {
         </p>
         <div className="flex flex-wrap gap-2">
           <button
-            onClick={() => window.sporing?.track("post-identify-1")}
+            onClick={() => (window as W).sporing?.track("post-identify-1")}
             className="px-3 py-1.5 text-sm font-mono bg-zinc-900 text-white rounded hover:bg-zinc-700 transition-colors"
           >
             sporing.track(&apos;post-identify-1&apos;)
           </button>
           <button
-            onClick={() => window.sporing?.track("post-identify-2")}
+            onClick={() => (window as W).sporing?.track("post-identify-2")}
             className="px-3 py-1.5 text-sm font-mono bg-zinc-900 text-white rounded hover:bg-zinc-700 transition-colors"
           >
             sporing.track(&apos;post-identify-2&apos;)
@@ -76,7 +74,7 @@ export default function SporingIdentifySimple() {
         </p>
         <div className="flex flex-wrap gap-2">
           <button
-            onClick={() => window.sporing?.identify({ rolle: "veileder" })}
+            onClick={() => (window as W).sporing?.identify({ rolle: "veileder" })}
             className="px-3 py-1.5 text-sm font-mono bg-zinc-200 text-zinc-500 rounded hover:bg-zinc-300 transition-colors"
           >
             sporing.identify(&#123; rolle: &apos;veileder&apos; &#125;)

@@ -1,13 +1,11 @@
 "use client";
 
-declare global {
-  interface Window {
-    umami?: {
-      track: (name?: string) => void;
-      identify: (id: string | Record<string, unknown>, data?: Record<string, unknown>) => void;
-    };
-  }
-}
+type W = Window & {
+  umami?: {
+    track: (name?: string) => void;
+    identify: (id: string | Record<string, unknown>, data?: Record<string, unknown>) => void;
+  };
+};
 
 export default function UmamiIdentifySimple() {
   return (
@@ -29,13 +27,13 @@ export default function UmamiIdentifySimple() {
         </h2>
         <div className="flex flex-wrap gap-2">
           <button
-            onClick={() => window.umami?.identify("test-bruker-002")}
+            onClick={() => (window as W).umami?.identify("test-bruker-002")}
             className="px-3 py-1.5 text-sm font-mono bg-zinc-900 text-white rounded hover:bg-zinc-700 transition-colors"
           >
             umami.identify(&apos;test-bruker-002&apos;)
           </button>
           <button
-            onClick={() => window.umami?.identify("test-bruker-002", { rolle: "veileder", enhet: "bergen" })}
+            onClick={() => (window as W).umami?.identify("test-bruker-002", { rolle: "veileder", enhet: "bergen" })}
             className="px-3 py-1.5 text-sm font-mono bg-zinc-900 text-white rounded hover:bg-zinc-700 transition-colors"
           >
             umami.identify(&apos;test-bruker-002&apos;, &#123; rolle, enhet &#125;)
@@ -49,13 +47,13 @@ export default function UmamiIdentifySimple() {
         </h2>
         <div className="flex flex-wrap gap-2">
           <button
-            onClick={() => window.umami?.track("post-identify-1")}
+            onClick={() => (window as W).umami?.track("post-identify-1")}
             className="px-3 py-1.5 text-sm font-mono bg-zinc-900 text-white rounded hover:bg-zinc-700 transition-colors"
           >
             umami.track(&apos;post-identify-1&apos;)
           </button>
           <button
-            onClick={() => window.umami?.track("post-identify-2")}
+            onClick={() => (window as W).umami?.track("post-identify-2")}
             className="px-3 py-1.5 text-sm font-mono bg-zinc-900 text-white rounded hover:bg-zinc-700 transition-colors"
           >
             umami.track(&apos;post-identify-2&apos;)

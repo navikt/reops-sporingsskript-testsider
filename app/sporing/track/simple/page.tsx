@@ -1,10 +1,6 @@
 "use client";
 
-declare global {
-  interface Window {
-    sporing?: { track: (name?: string, data?: Record<string, unknown>) => void };
-  }
-}
+type W = Window & { sporing?: { track: (name?: string, data?: Record<string, unknown>) => void } };
 
 export default function SporingTrackSimple() {
   return (
@@ -24,19 +20,19 @@ export default function SporingTrackSimple() {
         </h2>
         <div className="flex flex-wrap gap-2">
           <button
-            onClick={() => window.sporing?.track()}
+            onClick={() => (window as W).sporing?.track()}
             className="px-3 py-1.5 text-sm font-mono bg-zinc-900 text-white rounded hover:bg-zinc-700 transition-colors"
           >
             sporing.track()
           </button>
           <button
-            onClick={() => window.sporing?.track("manuell-hendelse")}
+            onClick={() => (window as W).sporing?.track("manuell-hendelse")}
             className="px-3 py-1.5 text-sm font-mono bg-zinc-900 text-white rounded hover:bg-zinc-700 transition-colors"
           >
             sporing.track(&apos;manuell-hendelse&apos;)
           </button>
           <button
-            onClick={() => window.sporing?.track("hendelse-med-data", { kilde: "sporing-track-simple", steg: 1 })}
+            onClick={() => (window as W).sporing?.track("hendelse-med-data", { kilde: "sporing-track-simple", steg: 1 })}
             className="px-3 py-1.5 text-sm font-mono bg-zinc-900 text-white rounded hover:bg-zinc-700 transition-colors"
           >
             sporing.track(&apos;hendelse-med-data&apos;, &#123;…&#125;)
