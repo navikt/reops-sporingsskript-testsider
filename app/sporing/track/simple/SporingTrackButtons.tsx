@@ -1,65 +1,70 @@
 "use client";
 
+import { Button, HStack, VStack, Label } from "@navikt/ds-react";
+
 type W = Window & { sporing?: { track: (name?: string, data?: Record<string, unknown>) => void } };
 
 export function SporingTrackButtons() {
   return (
-    <>
-      <section className="space-y-3">
-        <h2 className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">
-          JS API — window.sporing.track()
-        </h2>
-        <div className="flex flex-wrap gap-2">
-          <button
+    <VStack gap="space-16">
+      <section>
+        <Label as="p" spacing>JS API — window.sporing.track()</Label>
+        <HStack gap="space-8" wrap>
+          <Button
+            variant="primary"
+            size="small"
             onClick={() => (window as W).sporing?.track()}
-            className="px-3 py-1.5 text-sm font-mono bg-zinc-900 text-white rounded hover:bg-zinc-700 transition-colors"
           >
             sporing.track()
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="primary"
+            size="small"
             onClick={() => (window as W).sporing?.track("manuell-hendelse")}
-            className="px-3 py-1.5 text-sm font-mono bg-zinc-900 text-white rounded hover:bg-zinc-700 transition-colors"
           >
             sporing.track(&apos;manuell-hendelse&apos;)
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="primary"
+            size="small"
             onClick={() => (window as W).sporing?.track("hendelse-med-data", { kilde: "sporing-track-simple", steg: 1 })}
-            className="px-3 py-1.5 text-sm font-mono bg-zinc-900 text-white rounded hover:bg-zinc-700 transition-colors"
           >
             sporing.track(&apos;hendelse-med-data&apos;, &#123;…&#125;)
-          </button>
-        </div>
+          </Button>
+        </HStack>
       </section>
 
-      <section className="space-y-3">
-        <h2 className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">
-          HTML-attributter — data-sporing-event
-        </h2>
-        <div className="flex flex-wrap gap-2">
-          <button
+      <section>
+        <Label as="p" spacing>HTML-attributter — data-sporing-event</Label>
+        <HStack gap="space-8" wrap>
+          <Button
+            variant="secondary"
+            size="small"
             data-sporing-event="html-klikk"
-            className="px-3 py-1.5 text-sm font-mono bg-blue-700 text-white rounded hover:bg-blue-600 transition-colors"
           >
             data-sporing-event=&quot;html-klikk&quot;
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="secondary"
+            size="small"
             data-sporing-event="html-klikk-med-data"
             data-sporing-event-type="knapp"
             data-sporing-event-side="sporing-track-simple"
-            className="px-3 py-1.5 text-sm font-mono bg-blue-700 text-white rounded hover:bg-blue-600 transition-colors"
           >
             data-sporing-event + data-sporing-event-type
-          </button>
-          <a
+          </Button>
+          <Button
+            variant="secondary"
+            size="small"
+            as="a"
             href="#"
             data-sporing-event="html-lenke-klikk"
-            onClick={(e) => e.preventDefault()}
-            className="px-3 py-1.5 text-sm font-mono bg-blue-700 text-white rounded hover:bg-blue-600 transition-colors"
+            onClick={(e: React.MouseEvent) => e.preventDefault()}
           >
             data-sporing-event på &lt;a&gt;
-          </a>
-        </div>
+          </Button>
+        </HStack>
       </section>
-    </>
+    </VStack>
   );
 }

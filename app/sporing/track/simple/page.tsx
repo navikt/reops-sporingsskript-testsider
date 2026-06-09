@@ -1,6 +1,7 @@
 import { BqBlock } from "@/app/components/BqBlock";
 import { bqConfig } from "@/lib/bq";
 import { SporingTrackButtons } from "./SporingTrackButtons";
+import { Heading, BodyShort } from "@navikt/ds-react";
 
 const { gcpProject, websiteId } = bqConfig;
 
@@ -27,16 +28,13 @@ export default function SporingTrackSimple() {
   return (
     <div className="space-y-10">
       <div>
-        <h1 className="text-xl font-semibold">sporing.track() — simple</h1>
-        <p className="mt-1 text-sm text-zinc-500">
+        <Heading size="medium" level="1" spacing>sporing.track() — simple</Heading>
+        <BodyShort size="small" className="text-zinc-500">
           Auto-sidevisning sendes ved lasting. Sjekk Network-tab for POST til{" "}
-          <code className="font-mono bg-zinc-100 px-1 rounded">/api/send</code> med{" "}
-          <code className="font-mono bg-zinc-100 px-1 rounded">type: &quot;event&quot;</code>.
-        </p>
+          <code>/api/send</code> med <code>type: &quot;event&quot;</code>.
+        </BodyShort>
       </div>
-
       <SporingTrackButtons />
-
       <BqBlock queries={QUERIES} />
     </div>
   );

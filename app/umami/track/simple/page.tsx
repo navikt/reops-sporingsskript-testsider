@@ -1,6 +1,7 @@
 import { BqBlock } from "@/app/components/BqBlock";
 import { bqConfig } from "@/lib/bq";
 import { UmamiTrackButtons } from "./UmamiTrackButtons";
+import { Heading, BodyShort, HStack, Tag } from "@navikt/ds-react";
 
 const { gcpProject, websiteId } = bqConfig;
 
@@ -18,19 +19,16 @@ export default function UmamiTrackSimple() {
   return (
     <div className="space-y-10">
       <div>
-        <div className="flex items-center gap-3">
-          <h1 className="text-xl font-semibold">umami.track() — simple</h1>
-          <span className="text-xs px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-800 font-medium">Legacy</span>
-        </div>
-        <p className="mt-1 text-sm text-zinc-500">
+        <HStack gap="space-8" align="center">
+          <Heading size="medium" level="1">umami.track() — simple</Heading>
+          <Tag variant="warning" size="small">Legacy</Tag>
+        </HStack>
+        <BodyShort size="small" className="text-zinc-500 mt-1">
           Backwards-kompatibilitetstest.{" "}
-          <code className="font-mono bg-zinc-100 px-1 rounded">window.umami</code> skal peke til
-          samme objekt som <code className="font-mono bg-zinc-100 px-1 rounded">window.sporing</code>.
-        </p>
+          <code>window.umami</code> skal peke til samme objekt som <code>window.sporing</code>.
+        </BodyShort>
       </div>
-
       <UmamiTrackButtons />
-
       <BqBlock queries={QUERIES} />
     </div>
   );
