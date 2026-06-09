@@ -69,18 +69,7 @@ JOIN \`${gcpProject}.umami_views.event_data\` d ON e.event_id = d.event_id
 WHERE e.website_id = '${websiteId}'
   AND e.created_at >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 1 DAY)
   AND e.event_name = '${eventName}'
-ORDER BY e.created_at DESC LIMIT 1;`,
-    },
-    {
-      label: "Verifiser filtrering",
-      sql: `SELECT
-  d.event_parameters
-FROM \`${gcpProject}.umami_views.event\` e
-JOIN \`${gcpProject}.umami_views.event_data\` d ON e.event_id = d.event_id
-WHERE e.website_id = '${websiteId}'
-  AND e.created_at >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 1 DAY)
-  AND e.event_name = '${eventName}'
-ORDER BY e.created_at DESC LIMIT 1;`,
+ORDER BY e.created_at DESC LIMIT 1000;`,
     },
   ];
 }
