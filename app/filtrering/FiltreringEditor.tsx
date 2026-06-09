@@ -1,7 +1,14 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
-import { Button, HStack, VStack, Label, TextField, BodyShort } from "@navikt/ds-react";
+import {
+  Button,
+  HStack,
+  VStack,
+  Label,
+  TextField,
+  BodyShort,
+} from "@navikt/ds-react";
 import { ArrowsCirclepathIcon } from "@navikt/aksel-icons";
 import CodeMirror from "@uiw/react-codemirror";
 import { json } from "@codemirror/lang-json";
@@ -15,7 +22,7 @@ function randomHex() {
 }
 
 function makeEventName() {
-  return `redaksjon-test-${randomHex()}`;
+  return `filtrering-test-${randomHex()}`;
 }
 
 const DEFAULT_PAYLOAD = JSON.stringify(
@@ -65,7 +72,7 @@ WHERE e.website_id = '${websiteId}'
 ORDER BY e.created_at DESC LIMIT 1;`,
     },
     {
-      label: "Verifiser redaksjon",
+      label: "Verifiser filtrering",
       sql: `SELECT
   d.event_parameters
 FROM \`${gcpProject}.umami_views.event\` e
@@ -78,7 +85,7 @@ ORDER BY e.created_at DESC LIMIT 1;`,
   ];
 }
 
-export function RedaksjonEditor({
+export function FiltreringEditor({
   gcpProject,
   websiteId,
 }: {
@@ -90,7 +97,9 @@ export function RedaksjonEditor({
   const [status, setStatus] = useState<"idle" | "ok" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
-  useEffect(() => { setEventName(makeEventName()); }, []);
+  useEffect(() => {
+    setEventName(makeEventName());
+  }, []);
 
   const fire = useCallback(() => {
     let parsed: Record<string, unknown>;
@@ -114,21 +123,25 @@ export function RedaksjonEditor({
   return (
     <VStack gap="space-16">
       <section>
-        <Label as="p" spacing>Event name</Label>
         <HStack gap="space-8" align="end">
           <TextField
             label="event name"
-            hideLabel
             value={eventName}
-            onChange={(e) => { setEventName(e.target.value); setStatus("idle"); }}
+            onChange={(e) => {
+              setEventName(e.target.value);
+              setStatus("idle");
+            }}
             size="small"
-            style={{ fontFamily: "monospace", flex: 1 }}
+            style={{ fontFamily: "monospace", width: "30ch" }}
           />
           <Button
             variant="secondary"
             size="small"
             icon={<ArrowsCirclepathIcon aria-hidden />}
-            onClick={() => { setEventName(makeEventName()); setStatus("idle"); }}
+            onClick={() => {
+              setEventName(makeEventName());
+              setStatus("idle");
+            }}
           >
             random navn
           </Button>
@@ -136,30 +149,39 @@ export function RedaksjonEditor({
       </section>
 
       <section>
-        <Label as="p" spacing>data-payload (JSON)</Label>
+        <Label as="p" spacing>
+          data-payload (JSON)
+        </Label>
         <div className="rounded-lg overflow-hidden border border-zinc-700">
           <CodeMirror
             value={raw}
             extensions={CM_EXTENSIONS}
             theme={oneDark}
-            onChange={(val) => { setRaw(val); setStatus("idle"); }}
-            basicSetup={{ lineNumbers: true, foldGutter: true, highlightActiveLine: true }}
+            onChange={(val) => {
+              setRaw(val);
+              setStatus("idle");
+            }}
+            basicSetup={{
+              lineNumbers: true,
+              foldGutter: true,
+              highlightActiveLine: true,
+            }}
             style={{ fontSize: "13px" }}
           />
         </div>
       </section>
 
       <HStack gap="space-8" align="center" wrap>
-        <Button
-          variant="primary"
-          onClick={fire}
-        >
+        <Button variant="primary" onClick={fire}>
           sporing.track(&apos;{eventName}&apos;, data)
         </Button>
         <Button
           variant="tertiary"
           data-color="neutral"
-          onClick={() => { setRaw(DEFAULT_PAYLOAD); setStatus("idle"); }}
+          onClick={() => {
+            setRaw(DEFAULT_PAYLOAD);
+            setStatus("idle");
+          }}
         >
           reset payload
         </Button>
@@ -176,7 +198,7 @@ export function RedaksjonEditor({
       </HStack>
 
       <ClientBqBlock
-        title="Verifiser redaksjon i BigQuery"
+        title="Verifiser filtrering i BigQuery"
         queries={makeQueries(gcpProject, websiteId, eventName)}
       />
     </VStack>

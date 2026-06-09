@@ -23,7 +23,7 @@ const ROUTES = [
     group: "Verktøy",
     badge: null,
     items: [
-      { href: "/redaksjon", label: "redaksjon", desc: "Interaktiv simulator — se hvordan en payload redakteres av reops-raw-to-clean" },
+      { href: "/filtrering", label: "filtrering", desc: "Interaktiv simulator — se hvordan en payload filtreres av reops-raw-to-clean" },
     ],
   },
 ];

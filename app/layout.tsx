@@ -27,7 +27,7 @@ const NAV_LINKS = [
   { href: "/sporing/identify/simple", label: "sporing.identify" },
   { href: "/umami/track/simple", label: "umami.track" },
   { href: "/umami/identify/simple", label: "umami.identify" },
-  { href: "/redaksjon", label: "redaksjon" },
+  { href: "/filtrering", label: "filtrering" },
 ];
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
