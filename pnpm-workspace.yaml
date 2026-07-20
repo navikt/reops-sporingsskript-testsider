@@ -5,8 +5,8 @@ ignoredBuiltDependencies:
   - sharp
   - unrs-resolver
 minimumReleaseAgeExclude:
-  - '@navikt/aksel-icons@8.12.0'
-  - '@navikt/ds-css@8.12.0'
-  - '@navikt/ds-react@8.12.0'
-  - '@navikt/ds-tokens@8.12.0'
-  - '@navikt/ds-tailwind@8.12.0'
+  - '@navikt/aksel-icons@8.15.0'
+  - '@navikt/ds-css@8.15.0'
+  - '@navikt/ds-react@8.15.0'
+  - '@navikt/ds-tokens@8.15.0'
+  - '@navikt/ds-tailwind@8.15.0'
