@@ -12,14 +12,15 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN corepack enable && pnpm build
 
-FROM base AS runner
+FROM cgr.dev/chainguard/wolfi-base@sha256:02dab76bd852a70556b5b2002195c8a5fdab77d323c433bf6642aab080489795 AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
 
-RUN addgroup --system --gid 1001 nodejs \
- && adduser --system --uid 1001 nextjs
+RUN apk update && apk add --no-cache nodejs \
+ && addgroup -S -g 1001 nodejs \
+ && adduser -S -u 1001 -G nodejs nextjs
 
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
