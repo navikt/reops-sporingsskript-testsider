@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { Provider, HStack, VStack, Tag, BodyShort } from "@navikt/ds-react";
+import { Provider, HStack, Tag, BodyShort, Heading, Box } from "@navikt/ds-react";
 import "./globals.css";
 import { TrackingScript } from "./components/TrackingScript";
+import { MainNav } from "./components/MainNav";
+import { Chrome } from "./components/Chrome";
 
 export const metadata: Metadata = {
   title: "Sporingsskript testsider",
@@ -21,14 +22,34 @@ const CDN = "https://cdn.nav.no/team-researchops/sporing";
 const SCRIPT_NAME = isProd ? "sporing.js" : "sporing-dev.js";
 const SCRIPT_SRC = `${CDN}/${SCRIPT_NAME}`;
 
-const NAV_LINKS = [
-  { href: "/", label: "Oversikt" },
-  { href: "/sporing/track/simple", label: "sporing.track" },
-  { href: "/sporing/identify/simple", label: "sporing.identify" },
-  { href: "/umami/track/simple", label: "umami.track" },
-  { href: "/umami/identify/simple", label: "umami.identify" },
-  { href: "/filtrering", label: "filtrering" },
-];
+const header = (
+  <Box background="neutral-soft" borderWidth="0 0 1 0" borderColor="neutral-subtle">
+    <div className="max-w-7xl mx-auto px-6 py-4 space-y-3">
+      <HStack gap="space-12" align="center" wrap>
+        <Heading size="small" level="1">Sporingsskript testsider</Heading>
+        <Tag variant={isProd ? "error" : "info"} size="small">
+          {isProd ? "prod" : "dev"}
+        </Tag>
+        <HStack gap="space-4" align="center">
+          <BodyShort size="small" className="text-zinc-500 font-mono">script:</BodyShort>
+          <a
+            href={SCRIPT_SRC}
+            target="_blank"
+            rel="noreferrer"
+            className="text-xs font-mono text-blue-600 hover:underline"
+          >
+            {SCRIPT_NAME}
+          </a>
+        </HStack>
+        <HStack gap="space-4" align="center">
+          <BodyShort size="small" className="text-zinc-500 font-mono">website_id:</BodyShort>
+          <code className="text-xs font-mono text-zinc-700">{WEBSITE_ID}</code>
+        </HStack>
+      </HStack>
+      <MainNav />
+    </div>
+  </Box>
+);
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -36,46 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <Provider>
           <TrackingScript websiteId={WEBSITE_ID} src={SCRIPT_SRC} />
-          <header className="border-b border-zinc-200 bg-zinc-50">
-            <div className="max-w-3xl mx-auto px-6 py-3 space-y-2">
-              {/* Site info bar */}
-              <HStack gap="space-12" align="center" wrap>
-                <Tag variant={isProd ? "error" : "info"} size="small">
-                  {isProd ? "prod" : "dev"}
-                </Tag>
-                <HStack gap="space-4" align="center">
-                  <BodyShort size="small" className="text-zinc-500 font-mono">script:</BodyShort>
-                  <a
-                    href={SCRIPT_SRC}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-xs font-mono text-blue-600 hover:underline"
-                  >
-                    {SCRIPT_NAME}
-                  </a>
-                </HStack>
-                <HStack gap="space-4" align="center">
-                  <BodyShort size="small" className="text-zinc-500 font-mono">website_id:</BodyShort>
-                  <code className="text-xs font-mono text-zinc-700">{WEBSITE_ID}</code>
-                </HStack>
-              </HStack>
-              {/* Nav links */}
-              <nav className="flex gap-5 flex-wrap">
-                {NAV_LINKS.map(({ href, label }) => (
-                  <Link
-                    key={href}
-                    href={href}
-                    className="text-xs font-mono text-zinc-500 hover:text-zinc-900 transition-colors"
-                  >
-                    {label}
-                  </Link>
-                ))}
-              </nav>
-            </div>
-          </header>
-          <main className="max-w-3xl mx-auto w-full px-6 py-10">
-            {children}
-          </main>
+          <Chrome header={header}>{children}</Chrome>
         </Provider>
       </body>
     </html>
