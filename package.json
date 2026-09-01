@@ -17,7 +17,7 @@
     "@navikt/ds-react": "8.15.0",
     "@navikt/ds-tailwind": "8.15.0",
     "@uiw/react-codemirror": "^4.25.11",
-    "next": "16.2.10",
+    "next": "16.2.11",
     "react": "19.2.7",
     "react-dom": "19.2.7",
     "shiki": "4.3.1"
@@ -28,7 +28,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.2.10",
+    "eslint-config-next": "16.2.11",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

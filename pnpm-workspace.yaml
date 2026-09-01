@@ -10,3 +10,5 @@ minimumReleaseAgeExclude:
   - '@navikt/ds-react@8.15.0'
   - '@navikt/ds-tokens@8.15.0'
   - '@navikt/ds-tailwind@8.15.0'
+overrides:
+  sharp: ^0.35.4
